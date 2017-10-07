@@ -1,5 +1,6 @@
 # coding: utf-8
 
+import random
 import datetime
 import slackbot_settings
 import pya3rt
@@ -35,6 +36,15 @@ def listen_func(message):
     log_output(message)
     message.send('誰かがお疲れ様ですと言ったね')
     message.reply('君だね？')
+
+@respond_to(r'^おにぎり$')
+@listen_to('今日のおにぎり')
+def onigiri(message):
+    log_output(message)
+    # おにぎりランキング https://matome.naver.jp/odai/2134359745609300101
+    onigiri_list = ['ツナマヨネーズ','しゃけ','梅干し','明太子','焼きたらこ','昆布','いくら','えびマヨネーズ','おかか','筋子',
+                    'とり五目','高菜','天むす','明太子マヨネーズ','生たらこ','辛子明太子','唐揚げ','焼きサケハラミ','焼肉','マグロ']
+    message.reply('今日のおすすめは *' + str(random.choice(onigiri_list)) + '* だよ！')
 
 @default_reply()
 def default_func(message):
