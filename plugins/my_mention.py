@@ -17,8 +17,7 @@ def mention_func(message):
     log_output(message)
     message.reply('ハローワールド')
 
-@respond_to(r'^新書$')
-@respond_to(r'^書籍$')
+@respond_to(r'^新書$|^書籍$')
 def new_book(message):
     log_output(message)
     try:
