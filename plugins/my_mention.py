@@ -38,12 +38,9 @@ def get_news(message):
 
     try:
         rss = feedparser.parse(RSS_URL)
-        text = 'スラド(https://srad.jp/)の新着のニュースだよー\n'
-        text += '-' * 80 + '\n'
+        text = 'スラド(https://srad.jp/)の新着のニュースだよー\n>>> '
         for i in range(0,5):
-            text += rss['entries'][i]['title'] + '\n'
-            text += rss['entries'][i]['link'] + '\n'
-            text +='-' * 80 + '\n'
+            text += str(i + 1) + ') ' + rss['entries'][i]['title'] + ' - (' + rss['entries'][i]['link'] + ')\n'
         text = text.rstrip('\n')
     except Exception as e:
         text = '情報が取得できません＞＜'
