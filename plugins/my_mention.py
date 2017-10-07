@@ -3,6 +3,8 @@
 import datetime
 import slackbot_settings
 import pya3rt
+import urllib.request
+from bs4 import BeautifulSoup
 from slackbot.bot import respond_to
 from slackbot.bot import listen_to
 from slackbot.bot import default_reply
@@ -11,6 +13,22 @@ from slackbot.bot import default_reply
 def mention_func(message):
     log_output(message)
     message.reply('ハローワールド')
+
+@respond_to('新書')
+@respond_to('書籍')
+def new_book(message):
+    log_output(message)
+    try:
+        html = urllib.request.urlopen("https://www.oreilly.co.jp/index.shtml")
+        soup = BeautifulSoup(html, "html.parser")
+        new_book = soup.find("div", { "class" : "post" })
+        text  = new_book.h3.string + '\n\n'
+        text += '。\n'.join((new_book.find('img')['title'].split('。')))
+        text += new_book.find('img')['src']
+    except Exception as e:
+        text = '情報が取得できません＞＜'
+
+    message.reply(text)
 
 @listen_to('お疲れ様です')
 def listen_func(message):
