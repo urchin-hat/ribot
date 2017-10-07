@@ -16,17 +16,16 @@ def mention_func(message):
     log_output(message)
     message.reply('ハローワールド')
 
-@respond_to('新書')
-@respond_to('書籍')
+@respond_to(r'^新書$')
+@respond_to(r'^書籍$')
 def new_book(message):
     log_output(message)
     try:
         html = urllib.request.urlopen("https://www.oreilly.co.jp/index.shtml")
         soup = BeautifulSoup(html, "html.parser")
         new_book = soup.find("div", { "class" : "post" })
-        text  = new_book.h3.string + '\n\n'
-        text += '。\n'.join((new_book.find('img')['title'].split('。')))
-        text += new_book.find('img')['src']
+        text  = 'オライリーの新刊は *' + new_book.h3.string + '* だよー\n'
+        text += new_book.find('a')['href']
     except Exception as e:
         text = '情報が取得できません＞＜'
 
