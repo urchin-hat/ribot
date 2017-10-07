@@ -5,6 +5,7 @@ import datetime
 import slackbot_settings
 import pya3rt
 import urllib.request
+import feedparser
 from bs4 import BeautifulSoup
 from slackbot.bot import respond_to
 from slackbot.bot import listen_to
@@ -29,6 +30,24 @@ def new_book(message):
     except Exception as e:
         text = '情報が取得できません＞＜'
 
+    message.reply(text)
+
+@respond_to(r'^ニュース$')
+def get_news(message):
+    log_output(message)
+    RSS_URL = "https://srad.jp/sradjp.rss"
+
+    try:
+        rss = feedparser.parse(RSS_URL)
+        text = 'スラド(https://srad.jp/)の新着のニュースだよー\n'
+        text += '-' * 80 + '\n'
+        for i in range(0,5):
+            text += rss['entries'][i]['title'] + '\n'
+            text += rss['entries'][i]['link'] + '\n'
+            text +='-' * 80 + '\n'
+        text = text.rstrip('\n')
+    except Exception as e:
+        text = '情報が取得できません＞＜'
     message.reply(text)
 
 @listen_to('お疲れ様です')
