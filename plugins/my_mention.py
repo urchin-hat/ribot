@@ -2,6 +2,7 @@
 
 import random
 import datetime
+import json
 import slackbot_settings
 import pya3rt
 import urllib.request
@@ -44,6 +45,27 @@ def get_news(message):
         text = text.rstrip('\n')
     except Exception as e:
         text = '情報が取得できません＞＜'
+    message.reply(text)
+
+@respond_to(r'^.*の天気$')
+def weather_news(message):
+    log_output(message)
+    city = message._body['text'].split('の')[0]
+    url = 'http://weather.livedoor.com/forecast/rss/primary_area.xml'
+    try:
+        html = urllib.request.urlopen("http://weather.livedoor.com/forecast/rss/primary_area.xml")
+        soup = BeautifulSoup(html, "html.parser")
+        if soup.find("city", { "title" : city }) != None:
+            text = city + 'の天気だよー\n'
+            city_id = soup.find("city", { "title" : city })['id']
+            html = urllib.request.urlopen('http://weather.livedoor.com/forecast/webservice/json/v1?city=' + city_id)
+            jsonfile = json.loads(html.read().decode('utf-8'))
+            text += '>>> ' + jsonfile['description']['text']
+        else:
+            text = '{0}の地域IDが見つからないようです。\n以下のURLを参考にしてください。\n{1}'.format(city, url)
+    except Exception as e:
+        text = '情報が取得できません＞＜'
+
     message.reply(text)
 
 @listen_to('お疲れ様です')
