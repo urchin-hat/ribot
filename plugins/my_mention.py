@@ -11,6 +11,7 @@ from bs4 import BeautifulSoup
 from slackbot.bot import respond_to
 from slackbot.bot import listen_to
 from slackbot.bot import default_reply
+import csv
 
 @respond_to('はろー')
 def mention_func(message):
@@ -70,8 +71,49 @@ def weather_news(message):
 @listen_to('お疲れ様です')
 def listen_func(message):
     log_output(message)
-    message.send('誰かがお疲れ様ですと言ったね')
+    message.send('お願いします誰かがお疲れ様ですと言ったね')
+    message.send("set the channel topic: お疲れ様です。")
     message.reply('君だね？')
+
+# ref http://blog.bitmeister.jp/?p=3981
+@listen_to(r'^アンケート (.*)')
+def poll(message, params):
+    print(params)
+    args = params.split(' ')
+    if len(args) < 3:
+        message.reply('`アンケート タイトル [質問 質問 ...]`と入力してー')
+        return
+
+    title = args.pop(0)
+    options = []
+    EMOJIS = ('one','two','three','four','five',)
+    for i, o in enumerate(args):
+        options.append('* :{}: {}'.format(EMOJIS[i], o))
+
+    send_user = message.channel._client.users[message.body['user']][u'name']
+    post = {
+        'pretext': '<!channel> {}さんからアンケートがあります。'.format(send_user),
+        'title': title,
+        'author_name': send_user,
+        'text': '\n'.join(options),
+        'color': 'good'
+    }
+
+    ret = message._client.webapi.chat.post_message(
+        message._body['channel'],
+        '',
+        username=message._client.login_data['self']['name'],
+        as_user=True,
+        attachments=[post]
+    )
+    ts = ret.body['ts']
+
+    for i, _ in enumerate(options):
+        message._client.webapi.reactions.add(
+            name=EMOJIS[i],
+            channel=message._body['channel'],
+            timestamp=ts
+        )
 
 @respond_to(r'^おにぎり$')
 @listen_to('今日のおにぎり')
@@ -92,5 +134,5 @@ def default_func(message):
         message.reply("ちょっと何言ってるかわかりません")
 
 def log_output(message):
-    # import inspect; print(inspect.getmembers(message))
+    #import inspect; print(inspect.getmembers(message))
     print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S\t' + message._body['user'] + '\t' + message._body['text']))
