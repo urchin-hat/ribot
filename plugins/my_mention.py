@@ -11,7 +11,6 @@ from bs4 import BeautifulSoup
 from slackbot.bot import respond_to
 from slackbot.bot import listen_to
 from slackbot.bot import default_reply
-import csv
 
 @respond_to('はろー')
 def mention_func(message):
@@ -72,7 +71,6 @@ def weather_news(message):
 def listen_func(message):
     log_output(message)
     message.send('お願いします誰かがお疲れ様ですと言ったね')
-    message.send("set the channel topic: お疲れ様です。")
     message.reply('君だね？')
 
 # ref http://blog.bitmeister.jp/?p=3981
@@ -134,5 +132,5 @@ def default_func(message):
         message.reply("ちょっと何言ってるかわかりません")
 
 def log_output(message):
-    #import inspect; print(inspect.getmembers(message))
+    # import inspect; print(inspect.getmembers(message))
     print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S\t' + message._body['user'] + '\t' + message._body['text']))
