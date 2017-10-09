@@ -76,7 +76,6 @@ def listen_func(message):
 # ref http://blog.bitmeister.jp/?p=3981
 @listen_to(r'^アンケート (.*)')
 def poll(message, params):
-    print(params)
     args = params.split(' ')
     if len(args) < 3:
         message.reply('`アンケート タイトル [質問 質問 ...]`と入力してー')
@@ -112,6 +111,13 @@ def poll(message, params):
             channel=message._body['channel'],
             timestamp=ts
         )
+
+@listen_to(r'^トピック (.*)$')
+def set_topic(message, params):
+    log_output(message)
+    message.send('トピックを更新するよー')
+    url = 'https://slack.com/api/channels.setTopic?token=' + slackbot_settings.API_TOKEN + '&channel=' + message._body['channel'] + '&topic=' + urllib.parse.quote_plus(params, encoding='utf-8')
+    urllib.request.urlopen(url)
 
 @respond_to(r'^おにぎり$')
 @listen_to('今日のおにぎり')
