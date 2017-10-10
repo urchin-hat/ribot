@@ -112,10 +112,10 @@ def poll(message, params):
             timestamp=ts
         )
 
-@listen_to(r'^トピック (.*)$')
+@listen_to(r'^次回帰社日 (.*)$')
 def set_topic(message, params):
     log_output(message)
-    message.send('トピックを更新するよー')
+    message.send('トピックに帰社日を設定するよー')
     url = 'https://slack.com/api/channels.setTopic?token=' + slackbot_settings.API_TOKEN + '&channel=' + message._body['channel'] + '&topic=' + urllib.parse.quote_plus(params, encoding='utf-8')
     urllib.request.urlopen(url)
 
