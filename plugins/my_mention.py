@@ -18,6 +18,7 @@ def mention_func(message):
     message.reply('ハローワールド')
 
 @respond_to(r'^新書$|^書籍$')
+@listen_to(r'^新書$|^書籍$')
 def new_book(message):
     log_output(message)
     try:
@@ -32,6 +33,7 @@ def new_book(message):
     message.reply(text)
 
 @respond_to(r'^ニュース$')
+@listen_to(r'^ニュース$')
 def get_news(message):
     log_output(message)
     RSS_URL = "https://srad.jp/sradjp.rss"
@@ -73,9 +75,40 @@ def listen_func(message):
     message.send('お願いします誰かがお疲れ様ですと言ったね')
     message.reply('君だね？')
 
+# 未テスト
+@listen_to(r'^選出 (.*)人')
+def random_choice(message, params):
+    log_output(message)
+    text = ''
+    menbaers_list = []
+    if params.isdigit():
+        url = 'https://slack.com/api/channels.list?token=' + slackbot_settings.API_TOKEN + '&pretty=1'
+        html = urllib.request.urlopen(url)
+        jsonfile = json.loads(html.read().decode('utf-8'))
+        channel_id = message._body['channel']
+        try:
+            for i in range(len(jsonfile['channels'])):
+                if channel_id in jsonfile['channels'][i]['id']:
+                    menbaers_list = jsonfile['channels'][i]['members']
+                    for user_id in slackbot_settings.del_list:
+                        try:
+                            menbaers_list.remove(user_id)
+                        except Exception as e:
+                            pass
+                    break
+            for user_id in random.sample(menbaers_list, 3):
+                text += "<@" + user_id + "> "
+                text += "\n選ばれました！\nよろしくお願いしますm(_ _)m"
+        except Exception as e:
+            text = 'なんかエラーになった＞＜'
+        message.send(text)
+    else:
+        message.reply('数値じゃない何かがはいったぬ')
+
 # ref http://blog.bitmeister.jp/?p=3981
 @listen_to(r'^アンケート (.*)')
-def poll(message, params):
+def questionnaire(message, params):
+    log_output(message)
     args = params.split(' ')
     if len(args) < 3:
         message.reply('`アンケート タイトル [質問 質問 ...]`と入力してー')

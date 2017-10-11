@@ -7,3 +7,6 @@ A3RT_API_KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 # PLUGINS DIR
 PLUGINS = ['plugins']
+
+# del id list
+del_list = []
