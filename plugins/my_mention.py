@@ -1,5 +1,7 @@
+#!/usr/bin/env python -u
 # coding: utf-8
 
+import sys
 import random
 import datetime
 import json
@@ -17,8 +19,14 @@ def mention_func(message):
     log_output(message)
     message.reply('ハローワールド')
 
-@respond_to(r'^新書$|^書籍$')
-@listen_to(r'^新書$|^書籍$')
+@listen_to('お疲れ様です')
+def listen_func(message):
+    log_output(message)
+    message.send('誰かがお疲れ様って言った...')
+    message.reply('おつかれさまー')
+
+@respond_to(r'^新書$|^書籍$|^新刊$')
+@listen_to(r'^新書$|^書籍$|^新刊$')
 def new_book(message):
     log_output(message)
     try:
@@ -68,12 +76,6 @@ def weather_news(message):
         text = '情報が取得できません＞＜'
 
     message.reply(text)
-
-@listen_to('お疲れ様です')
-def listen_func(message):
-    log_output(message)
-    message.send('お願いします誰かがお疲れ様ですと言ったね')
-    message.reply('君だね？')
 
 # 未テスト
 @listen_to(r'^選出 (.*)人')
@@ -173,3 +175,4 @@ def default_func(message):
 def log_output(message):
     # import inspect; print(inspect.getmembers(message))
     print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S\t' + message._body['user'] + '\t' + message._body['text']))
+    sys.stdout.flush()

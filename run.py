@@ -13,4 +13,5 @@ def main():
 
 if __name__ == '__main__':
     print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S\tstart'))
+    sys.stdout.flush()
     main()
