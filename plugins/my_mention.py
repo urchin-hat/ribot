@@ -96,7 +96,7 @@ def random_choice(message, params):
                         except Exception as e:
                             pass
                     break
-            for user_id in random.sample(menbaers_list, 3):
+            for user_id in random.sample(menbaers_list, int(params)):
                 text += "<@" + user_id + "> "
                 text += "\n選ばれました！\nよろしくお願いしますm(_ _)m"
         except Exception as e:
