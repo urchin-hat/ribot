@@ -24,7 +24,7 @@ http://weather.livedoor.com/weather_hacks/webservice
 と呟くと天気情報を返します。
 
 ### 書籍
-スクレイピング対象はオライリー公式サイト
+スクレイピング対象はオライリー公式サイト  
 https://www.oreilly.co.jp/index.shtml
 ```
 新刊 or 書籍 or 新書
