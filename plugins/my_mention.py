@@ -14,15 +14,15 @@ from slackbot.bot import respond_to
 from slackbot.bot import listen_to
 from slackbot.bot import default_reply
 
-@respond_to('はろー')
+@respond_to(r'^はろー$')
 def mention_func(message):
     log_output(message)
     message.reply('ハローワールド')
 
-@listen_to('お疲れ様です')
+@listen_to(r'^お疲れ様です$')
 def listen_func(message):
     log_output(message)
-    message.send('誰かがお疲れ様って言った...')
+    # message.send('誰かがお疲れ様って言った...')
     message.reply('おつかれさまー')
 
 @respond_to(r'^新書$|^書籍$|^新刊$')
@@ -100,7 +100,7 @@ def random_choice(message, params):
                     break
             for user_id in random.sample(menbaers_list, int(params)):
                 text += "<@" + user_id + "> "
-                text += "\n選ばれました！\nよろしくお願いしますm(_ _)m"
+            text += "\n選ばれました！\nよろしくお願いしますm(_ _)m"
         except Exception as e:
             text = 'なんかエラーになった＞＜'
         message.send(text)
@@ -150,12 +150,12 @@ def questionnaire(message, params):
 @listen_to(r'^トピック (.*)$')
 def set_topic(message, params):
     log_output(message)
-    message.send('トピックに帰社日を設定するよー')
+    message.send('トピックを設定するよー')
     url = 'https://slack.com/api/channels.setTopic?token=' + slackbot_settings.API_TOKEN + '&channel=' + message._body['channel'] + '&topic=' + urllib.parse.quote_plus(params, encoding='utf-8')
     urllib.request.urlopen(url)
 
 @respond_to(r'^おにぎり$')
-@listen_to('今日のおにぎり')
+@listen_to(r'^今日のおにぎり$')
 def onigiri(message):
     log_output(message)
     # おにぎりランキング https://matome.naver.jp/odai/2134359745609300101
