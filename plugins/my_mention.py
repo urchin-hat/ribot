@@ -147,7 +147,7 @@ def questionnaire(message, params):
             timestamp=ts
         )
 
-@listen_to(r'^次回帰社日 (.*)$')
+@listen_to(r'^トピック (.*)$')
 def set_topic(message, params):
     log_output(message)
     message.send('トピックに帰社日を設定するよー')
