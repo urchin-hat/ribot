@@ -92,8 +92,8 @@ def btc_rate(message):
                 text += '> ビットコイン売却（円）は' + '{:,}'.format(value) + '円\n'
         text += 'ですー'
     except Exception as e:
-        traceback.print_exc()
         text = '情報が取得できません＞＜'
+        
     message.send(text)
 
 @listen_to(r'^選出 (.*)人')
