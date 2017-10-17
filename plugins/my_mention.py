@@ -84,8 +84,8 @@ def btc_rate(message):
     text = ''
     try:
         jsonfile = json.loads(urllib.request.urlopen(api_url).read())
-        text = "> " + str(datetime.datetime.now().strftime('%Y年%m月%d日 %H時%M分')) + 'の\t'
-        for key, value in price_dict.items():
+        text = "> " + str(datetime.datetime.now().strftime('%Y年%m月%d日 %H時%M分')) + 'の\n'
+        for key, value in jsonfile.items():
             if key == 'ask':
                 text += '> ビットコイン購入（円）は' + '{:,}'.format(value) + '円\n'
             elif key == 'bid':
@@ -93,7 +93,7 @@ def btc_rate(message):
         text += 'ですー'
     except Exception as e:
         text = '情報が取得できません＞＜'
-        
+         
     message.send(text)
 
 @listen_to(r'^選出 (.*)人')
