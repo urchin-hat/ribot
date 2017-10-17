@@ -77,7 +77,25 @@ def weather_news(message):
 
     message.reply(text)
 
-# 未テスト
+@respond_to(r'^BTCのレート$')
+def btc_rate(message):
+    log_output(message)
+    api_url = 'https://bitflyer.jp/api/echo/price'
+    text = ''
+    try:
+        jsonfile = json.loads(urllib.request.urlopen(api_url).read())
+        text = "> " + str(datetime.datetime.now().strftime('%Y年%m月%d日 %H時%M分')) + 'の\t'
+        for key, value in price_dict.items():
+            if key == 'ask':
+                text += '> ビットコイン購入（円）は' + '{:,}'.format(value) + '円\n'
+            elif key == 'bid':
+                text += '> ビットコイン売却（円）は' + '{:,}'.format(value) + '円\n'
+        text += 'ですー'
+    except Exception as e:
+        traceback.print_exc()
+        text = '情報が取得できません＞＜'
+    message.send(text)
+
 @listen_to(r'^選出 (.*)人')
 def random_choice(message, params):
     log_output(message)
