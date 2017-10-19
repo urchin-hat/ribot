@@ -5,10 +5,10 @@ import sys
 import random
 import datetime
 import json
-import slackbot_settings
-import pya3rt
 import urllib.request
 import feedparser
+import pya3rt
+import slackbot_settings
 from bs4 import BeautifulSoup
 from slackbot.bot import respond_to
 from slackbot.bot import listen_to
@@ -24,6 +24,13 @@ def listen_func(message):
     log_output(message)
     # message.send('誰かがお疲れ様って言った...')
     message.reply('おつかれさまー')
+
+@respond_to(r'^help$|^ヘルプ$')
+def help_func(message):
+    log_output(message)
+    with open('../help.txt') as f:
+        text = f.read()
+    message.reply('text')
 
 @respond_to(r'^新書$|^書籍$|^新刊$')
 @listen_to(r'^新書$|^書籍$|^新刊$')
@@ -93,7 +100,7 @@ def btc_rate(message):
         text += 'ですー'
     except Exception as e:
         text = '情報が取得できません＞＜'
-         
+
     message.send(text)
 
 @listen_to(r'^選出 (.*)人')

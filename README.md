@@ -15,6 +15,8 @@ Python 3.6.0 :: Anaconda 4.3.0 (x86_64)
 
 ## コマンド
 コマンドの一覧と簡単な説明
+`ヘルプ` or `help`と呟くとコマンドの一覧が出ます。
+
 ### 天気
 ライブドア天気情報apiを使用  
 http://weather.livedoor.com/weather_hacks/webservice
@@ -50,6 +52,14 @@ https://srad.jp/
 アンケート 項目1 項目2 …
 ```
 と呟くと簡易的なアンケートを作成します。
+
+### BTC
+bitFlyer APIより取得  
+https://bitflyer.jp/ja/api
+```
+BTCのレート
+```
+と呟くと売値と買値教えてくれるよ。
 
 ### おにぎり
 ```
