@@ -23,7 +23,7 @@ def mention_func(message):
 def listen_func(message):
     log_output(message)
     # message.send('誰かがお疲れ様って言った...')
-    message.reply('おつかれさまー')
+    message.send('おつかれさまー')
 
 @respond_to(r'^help$|^ヘルプ$')
 def help_func(message):
@@ -69,7 +69,7 @@ def new_book(message):
     except Exception as e:
         text = '情報が取得できません＞＜'
 
-    message.reply(text)
+    message.send(text)
 
 @respond_to(r'^ニュース$')
 @listen_to(r'^ニュース$')
@@ -85,7 +85,7 @@ def get_news(message):
         text = text.rstrip('\n')
     except Exception as e:
         text = '情報が取得できません＞＜'
-    message.reply(text)
+    message.send(text)
 
 @respond_to(r'^.*の天気$')
 def weather_news(message):
