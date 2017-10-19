@@ -13,6 +13,19 @@ Python 3.6.0 :: Anaconda 4.3.0 (x86_64)
 - pya3rt - https://github.com/nocotan/pya3rt
 - feedparser - https://github.com/kurtmckee/feedparser
 
+## 実装の心構え
+[カンバン](https://github.com/urchin-hat/ribot/projects/1)に要望を上げる。  
+↓  
+やります or ごめんなさいに分類する  
+↓  
+やりますに移動した場合にissueを作る  
+↓  
+作業着手    
+↓  
+実装したらできましたに移動
+
+コミットは1.実装内容 2.helpの文言、README.mdの更新 の2つぐらいが理想
+
 ## コマンド
 コマンドの一覧と簡単な説明
 `ヘルプ` or `help`と呟くとコマンドの一覧が出ます。
