@@ -16,7 +16,7 @@ Python 3.6.0 :: Anaconda 4.3.0 (x86_64)
 ## 実装の心構え
 [カンバン](https://github.com/urchin-hat/ribot/projects/1)に要望を上げる。  
 ↓  
-`やります` or `ごめんなさい`に分類する  
+`やります` or `ごめんなさい`に分類する   
 ↓  
 `やります`に移動した場合にissueを作る  
 ↓  
