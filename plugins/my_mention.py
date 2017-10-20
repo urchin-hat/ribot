@@ -6,6 +6,7 @@ import random
 import datetime
 import json
 import urllib.request
+import urllib.parse
 import feedparser
 import pya3rt
 import slackbot_settings
@@ -25,7 +26,9 @@ manual = '使い方を説明するよー [Ver' + __version__ + ' ' + __date__ + 
          '\t\t_1) `はろー`と呟くと ハローワールドと返してくれるよー_\n'\
          '\t\t_2) `{都市名}の天気`と呟くと天気情報を教えてくれるよー_\n'\
          '\t\t_3) `BTCのレート`と呟くとBTCの売値買値を教えてくれるよー_\n'\
-         '\t\t_4) `おにぎり`はおにぎり_\n\n'\
+         '\t\t_4) `おにぎり`はおにぎり_\n'\
+         '\t_引数がいるもの_\n'\
+         '\t\t_1) `wiki {調べたいこと}`でwikipediaのページを教えてくれるよー\n\n'
          '_- メンションじゃなくても拾ってくれるもの(チャンネル限定)_\n'\
          '\t_完全一致じゃないと反応しないもの_\n'\
          '\t\t_1) `お疲れ様です`と呟くと返してくれるよー_\n'\
@@ -195,6 +198,19 @@ def questionnaire_func(message, params):
             channel=message._body['channel'],
             timestamp=ts
         )
+
+@respond_to(r'^wiki (.*)$')
+def wikipedia_func(message, params):
+    url = 'https://ja.wikipedia.org/wiki/' + urllib.parse.quote_plus(str(params).replace(' ', ''), encoding="utf-8")
+
+    try:
+        urllib.request.urlopen(url)
+        text = 'Wikipediaの' + str(params).replace(' ', '') + 'の項目だよー\n' + url
+    except urllib.request.HTTPError as e:
+        if e.code != 200:
+            text = '項目が見つかんないよ＞＜'
+
+    message.reply(text)
 
 @listen_to(r'^トピック (.*)$')
 def set_topic_func(message, params):
