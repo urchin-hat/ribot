@@ -14,6 +14,28 @@ from slackbot.bot import respond_to
 from slackbot.bot import listen_to
 from slackbot.bot import default_reply
 
+# manual version
+__version__ = "1.0"
+__date__    = "2017/10/19"
+
+# manual text
+manual = '使い方を説明するよー [Ver' + __version__ + ' ' + __date__ + ']\n'\
+         '>>> _- メンションが必要なもの(1on1なら不必要)_\n'\
+         '\t_完全一致じゃないと反応しないもの_\n'\
+         '\t\t_1) `はろー`と呟くと ハローワールドと返してくれるよー_\n'\
+         '\t\t_2) `{都市名}の天気`と呟くと天気情報を教えてくれるよー_\n'\
+         '\t\t_3) `BTCのレート`と呟くとBTCの売値買値を教えてくれるよー_\n'\
+         '\t\t_4) `おにぎり`はおにぎり_\n\n'\
+         '_- メンションじゃなくても拾ってくれるもの(チャンネル限定)_\n'\
+         '\t_完全一致じゃないと反応しないもの_\n'\
+         '\t\t_1) `お疲れ様です`と呟くと返してくれるよー_\n'\
+         '\t\t_2) `今日のおにぎり`はおにぎり_\n'\
+         '\t_引数がいるもの_\n'\
+         '\t\t_1) `選出 ○人`と呟くとランダムで選出してくれるよー_\n'\
+         '\t\t_2) `アンケート お題 項目1 項目2...`と呟くとアンケートを作成するよー_\n'\
+         '\t\t_3) `トピック 設定するトピック`と呟くとトピックを設定するよー_\n\n'\
+         '_それ以外はA3RTのTalk APIで塩対応してくれるよー_'
+
 @respond_to(r'^はろー$')
 def mention_func(message):
     log_output(message)
@@ -22,43 +44,17 @@ def mention_func(message):
 @listen_to(r'^お疲れ様です$')
 def listen_func(message):
     log_output(message)
-    # message.send('誰かがお疲れ様って言った...')
     message.send('おつかれさまー')
 
 @respond_to(r'^help$|^ヘルプ$')
 def help_func(message):
+    global manual
     log_output(message)
-    # help massege
-    text = '''使い方を説明するよー [Ver1.0 2017/10/19]
->>>    _- メンションが必要なもの(1on1なら不必要)_
-        _完全一致じゃないと反応しないもの_
-            _1) `はろー`と呟くと ハローワールドと返してくれるよー_
-            _2) `{都市名}の天気`と呟くと天気情報を教えてくれるよー_
-            _3) `BTCのレート`と呟くとBTCの売値買値を教えてくれるよー_
-            _4) `おにぎり`はおにぎり_
-
-   _- メンションじゃなくても拾ってくれるもの(チャンネル限定)_
-        _完全一致じゃないと反応しないもの_
-            _1) `お疲れ様です`と呟くと返してくれるよー_
-            _2) `今日のおにぎり`はおにぎり_
-        _完全一致じゃなくても反応してくれるもの_
-            _チャンネル限定_
-                _1) `選出 ○人`と呟くとランダムで選出してくれるよー_
-                _2) `アンケート お題 項目1 項目2...`と呟くとアンケートを作成するよー_
-                _3) `トピック 設定するトピック`と呟くとトピックを設定するよー_
-
-
-   _- どっちでも反応してくれるもの_
-        _完全一致じゃないと反応しないもの_
-            _1) `新書`or `書籍`or `新刊`と呟くとオライリーの新書情報を教えてくれるよー_
-            _2) `ニュース`と呟くとスラドの最新5件のニュースを教えてくれるよー_
-
-   _それ以外はA3RTのTalk APIで塩対応してくれるよー_'''
-    message.reply(text)
+    message.reply(manual)
 
 @respond_to(r'^新書$|^書籍$|^新刊$')
 @listen_to(r'^新書$|^書籍$|^新刊$')
-def new_book(message):
+def new_book_func(message):
     log_output(message)
     try:
         html = urllib.request.urlopen("https://www.oreilly.co.jp/index.shtml")
@@ -73,7 +69,7 @@ def new_book(message):
 
 @respond_to(r'^ニュース$')
 @listen_to(r'^ニュース$')
-def get_news(message):
+def get_news_func(message):
     log_output(message)
     RSS_URL = "https://srad.jp/sradjp.rss"
 
@@ -88,7 +84,7 @@ def get_news(message):
     message.send(text)
 
 @respond_to(r'^.*の天気$')
-def weather_news(message):
+def weather_news_func(message):
     log_output(message)
     city = message._body['text'].split('の')[0]
     url = 'http://weather.livedoor.com/forecast/rss/primary_area.xml'
@@ -109,7 +105,7 @@ def weather_news(message):
     message.reply(text)
 
 @respond_to(r'^BTCのレート$')
-def btc_rate(message):
+def btc_rate_func(message):
     log_output(message)
     api_url = 'https://bitflyer.jp/api/echo/price'
     text = ''
@@ -128,7 +124,7 @@ def btc_rate(message):
     message.send(text)
 
 @listen_to(r'^選出 (.*)人')
-def random_choice(message, params):
+def randomChoice_func(message, params):
     log_output(message)
     text = ''
     menbaers_list = []
@@ -158,7 +154,7 @@ def random_choice(message, params):
 
 # ref http://blog.bitmeister.jp/?p=3981
 @listen_to(r'^アンケート (.*)')
-def questionnaire(message, params):
+def questionnaire_func(message, params):
     log_output(message)
     args = params.split(' ')
     if len(args) < 3:
@@ -197,7 +193,7 @@ def questionnaire(message, params):
         )
 
 @listen_to(r'^トピック (.*)$')
-def set_topic(message, params):
+def set_topic_func(message, params):
     log_output(message)
     message.send('トピックを設定するよー')
     url = 'https://slack.com/api/channels.setTopic?token=' + slackbot_settings.API_TOKEN + '&channel=' + message._body['channel'] + '&topic=' + urllib.parse.quote_plus(params, encoding='utf-8')
@@ -205,7 +201,7 @@ def set_topic(message, params):
 
 @respond_to(r'^おにぎり$')
 @listen_to(r'^今日のおにぎり$')
-def onigiri(message):
+def onigiri_func(message):
     log_output(message)
     # おにぎりランキング https://matome.naver.jp/odai/2134359745609300101
     onigiri_list = ['ツナマヨネーズ','しゃけ','梅干し','明太子','焼きたらこ','昆布','いくら','えびマヨネーズ','おかか','筋子',
@@ -222,6 +218,6 @@ def default_func(message):
         message.reply("ちょっと何言ってるかわかりません")
 
 def log_output(message):
-    # import inspect; print(inspect.getmembers(message))
+    # import inspect; print(inspect.getmembers(message)) # debug
     print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S\t' + message._body['user'] + '\t' + message._body['text']))
     sys.stdout.flush()
