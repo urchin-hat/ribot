@@ -94,4 +94,4 @@ http://www.k4.dion.ne.jp/~mms/unix/linux_com/
 ```
 コマンド {調べたいコマンド}
 ```
-ででLinuxコマンドの機能と書式を教えてくれるよー
+と呟けばLinuxコマンドの機能と書式を教えてくれるよー
