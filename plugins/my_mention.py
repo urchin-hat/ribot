@@ -124,7 +124,7 @@ def btc_rate_func(message):
     message.send(text)
 
 @listen_to(r'^選出 (.*)人')
-def randomChoice_func(message, params):
+def random_choice_func(message, params):
     log_output(message)
     text = ''
     menbaers_list = []
