@@ -202,6 +202,7 @@ def questionnaire_func(message, params):
 
 @respond_to(r'^wiki (.*)$')
 def wikipedia_func(message, params):
+    log_output(message)
     url = 'https://ja.wikipedia.org/wiki/' + urllib.parse.quote_plus(str(params).replace(' ', ''), encoding="utf-8")
 
     try:
@@ -215,6 +216,7 @@ def wikipedia_func(message, params):
 
 @respond_to(r'^コマンド (.*)$')
 def teach_cmd_func(message, params):
+    log_output(message)
     url = 'http://www.k4.dion.ne.jp/~mms/unix/linux_com/' + str(params) + '.html'
      try:
         html = urllib.request.urlopen(url)
