@@ -21,14 +21,15 @@ __date__    = "2017/10/19"
 
 # manual text
 manual = '使い方を説明するよー [Ver' + __version__ + ' ' + __date__ + ']\n'\
-         '>>> _- メンションが必要なもの(1on1なら不必要)_\n'\
+         '>>> _- メンションが必要なもの(1on1なら不要)_\n'\
          '\t_完全一致じゃないと反応しないもの_\n'\
          '\t\t_1) `はろー`と呟くと ハローワールドと返してくれるよー_\n'\
          '\t\t_2) `{都市名}の天気`と呟くと天気情報を教えてくれるよー_\n'\
          '\t\t_3) `BTCのレート`と呟くとBTCの売値買値を教えてくれるよー_\n'\
          '\t\t_4) `おにぎり`はおにぎり_\n'\
          '\t_引数がいるもの_\n'\
-         '\t\t_1) `wiki {調べたいこと}`でwikipediaのページを教えてくれるよー\n\n'
+         '\t\t_1) `wiki {調べたいこと}`でwikipediaのページを教えてくれるよー\n'\
+         '\t\t_2) `コマンド {コマンド名}`でLinuxコマンドの機能と書式を教えてくれるよー\n\n'\
          '_- メンションじゃなくても拾ってくれるもの(チャンネル限定)_\n'\
          '\t_完全一致じゃないと反応しないもの_\n'\
          '\t\t_1) `お疲れ様です`と呟くと返してくれるよー_\n'\
@@ -209,6 +210,23 @@ def wikipedia_func(message, params):
     except urllib.request.HTTPError as e:
         if e.code != 200:
             text = '項目が見つかんないよ＞＜'
+
+    message.reply(text)
+
+@respond_to(r'^コマンド (.*)$')
+def teach_cmd_func(message, params):
+    url = 'http://www.k4.dion.ne.jp/~mms/unix/linux_com/' + str(params) + '.html'
+     try:
+        html = urllib.request.urlopen(url)
+        soup = BeautifulSoup(html, "html.parser")
+        text = '>>>*' + param[0] + '*\n'
+        text += '\t機能\n'
+        text += '\t\t' + soup.find("p", { "class" : "kinou" }).get_text() + '\n'
+        text += '\t書式\n'
+        text += '\t\t' + soup.find("p", { "class" : "opt" }).get_text()
+    except urllib.request.HTTPError as e:
+        if e.code != 200:
+            text = '項目が見つかんないよー。または取ってきてるサイトにのってないです＞＜'
 
     message.reply(text)
 
