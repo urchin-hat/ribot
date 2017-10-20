@@ -212,6 +212,23 @@ def wikipedia_func(message, params):
 
     message.reply(text)
 
+@respond_to(r'^コマンド (.*)$')
+def teach_cmd_func(message, params):
+    url = 'http://www.k4.dion.ne.jp/~mms/unix/linux_com/' + str(params) + '.html'
+     try:
+        html = urllib.request.urlopen(url)
+        soup = BeautifulSoup(html, "html.parser")
+        text = '>>>*' + param[0] + '*\n'
+        text += '\t機能\n'
+        text += '\t\t' + soup.find("p", { "class" : "kinou" }).get_text() + '\n'
+        text += '\t書式\n'
+        text += '\t\t' + soup.find("p", { "class" : "opt" }).get_text()
+    except urllib.request.HTTPError as e:
+        if e.code != 200:
+            text = '項目が見つかんないよー。または取ってきてるサイトにのってないです＞＜'
+
+    message.reply(text)
+
 @listen_to(r'^トピック (.*)$')
 def set_topic_func(message, params):
     log_output(message)
