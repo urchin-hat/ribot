@@ -42,7 +42,7 @@ manual = '使い方を説明するよー [Ver' + __version__ + ' ' + __date__ + 
          '_- どっちでも反応してくれるもの_\n'\
          '\t_完全一致じゃないと反応しないもの_\n'\
          '\t\t_1) `新書` or `書籍` or `新刊`と呟くとオライリーの新書情報を教えてくれるよー_\n'\
-         '\t\t_2) ニュースと呟くとスラドの最新5件のニュースを教えてくれるよー_\n\n'\
+         '\t\t_2) `ニュース`と呟くとスラドの最新5件のニュースを教えてくれるよー_\n\n'\
          '_それ以外はA3RTのTalk APIで塩対応してくれるよー_'
 
 @respond_to(r'^はろー$')
@@ -204,11 +204,11 @@ def questionnaire_func(message, params):
 @respond_to(r'^wiki (.*)$')
 def wikipedia_func(message, params):
     log_output(message)
-    url = 'https://ja.wikipedia.org/wiki/' + urllib.parse.quote_plus(str(params).replace(' ', ''), encoding="utf-8")
+    url = 'https://ja.wikipedia.org/wiki/' + urllib.parse.quote_plus(str(params).replace(' ', '_').replace('(', '_('), encoding="utf-8")
 
     try:
         urllib.request.urlopen(url)
-        text = 'Wikipediaの' + str(params).replace(' ', '') + 'の項目だよー\n' + url
+        text = 'Wikipediaの' + str(params) + 'の項目だよー\n' + url
     except urllib.request.HTTPError as e:
         if e.code != 200:
             text = '項目が見つかんないよ＞＜'
@@ -222,7 +222,7 @@ def teach_cmd_func(message, params):
     try:
         html = urllib.request.urlopen(url)
         soup = BeautifulSoup(html, "html.parser")
-        text = '>>>_*' + param[0] + '*_\n'
+        text = '>>>_*' + params + '*_\n'
         text += '\t_機能_\n'
         text += '\t\t_' + soup.find("p", { "class" : "kinou" }).get_text() + '_\n'
         text += '\t_書式_\n'
