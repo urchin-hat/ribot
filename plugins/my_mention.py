@@ -28,8 +28,8 @@ manual = '使い方を説明するよー [Ver' + __version__ + ' ' + __date__ + 
          '\t\t_3) `BTCのレート`と呟くとBTCの売値買値を教えてくれるよー_\n'\
          '\t\t_4) `おにぎり`はおにぎり_\n'\
          '\t_引数がいるもの_\n'\
-         '\t\t_1) `wiki {調べたいこと}`でwikipediaのページを教えてくれるよー\n'\
-         '\t\t_2) `コマンド {コマンド名}`でLinuxコマンドの機能と書式を教えてくれるよー\n\n'\
+         '\t\t_1) `wiki {調べたいこと}`でwikipediaのページを教えてくれるよー_\n'\
+         '\t\t_2) `コマンド {コマンド名}`でLinuxコマンドの機能と書式を教えてくれるよー_\n\n'\
          '_- メンションじゃなくても拾ってくれるもの(チャンネル限定)_\n'\
          '\t_完全一致じゃないと反応しないもの_\n'\
          '\t\t_1) `お疲れ様です`と呟くと返してくれるよー_\n'\
@@ -219,11 +219,11 @@ def teach_cmd_func(message, params):
      try:
         html = urllib.request.urlopen(url)
         soup = BeautifulSoup(html, "html.parser")
-        text = '>>>*' + param[0] + '*\n'
-        text += '\t機能\n'
-        text += '\t\t' + soup.find("p", { "class" : "kinou" }).get_text() + '\n'
-        text += '\t書式\n'
-        text += '\t\t' + soup.find("p", { "class" : "opt" }).get_text()
+        text = '>>>_*' + param[0] + '*_\n'
+        text += '\t_機能_\n'
+        text += '\t\t_' + soup.find("p", { "class" : "kinou" }).get_text() + '_\n'
+        text += '\t_書式_\n'
+        text += '\t\t_' + soup.find("p", { "class" : "opt" }).get_text() + '_'
     except urllib.request.HTTPError as e:
         if e.code != 200:
             text = '項目が見つかんないよー。または取ってきてるサイトにのってないです＞＜'
