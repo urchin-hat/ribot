@@ -204,7 +204,7 @@ def questionnaire_func(message, params):
 @respond_to(r'^wiki (.*)$')
 def wikipedia_func(message, params):
     log_output(message)
-    url = 'https://ja.wikipedia.org/wiki/' + urllib.parse.quote_plus(str(params).replace(' ', '_').replace('(', '_('), encoding="utf-8")
+    url = 'https://ja.wikipedia.org/wiki/' + urllib.parse.quote_plus(str(params).strip().title().replace(' ', '_').replace('(', '_('), encoding="utf-8")
 
     try:
         urllib.request.urlopen(url)
