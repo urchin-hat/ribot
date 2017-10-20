@@ -41,7 +41,7 @@ manual = '使い方を説明するよー [Ver' + __version__ + ' ' + __date__ + 
          '\t\t_3) `トピック 設定するトピック`と呟くとトピックを設定するよー_\n\n'\
          '_- どっちでも反応してくれるもの_\n'\
          '\t_完全一致じゃないと反応しないもの_\n'\
-         '\t\t_1) `新書` or `書籍` or `新刊`と呟くとオライリーの新書情報を教えてくれるよー_\n'
+         '\t\t_1) `新書` or `書籍` or `新刊`と呟くとオライリーの新書情報を教えてくれるよー_\n'\
          '\t\t_2) ニュースと呟くとスラドの最新5件のニュースを教えてくれるよー_\n\n'\
          '_それ以外はA3RTのTalk APIで塩対応してくれるよー_'
 
@@ -219,7 +219,7 @@ def wikipedia_func(message, params):
 def teach_cmd_func(message, params):
     log_output(message)
     url = 'http://www.k4.dion.ne.jp/~mms/unix/linux_com/' + str(params) + '.html'
-     try:
+    try:
         html = urllib.request.urlopen(url)
         soup = BeautifulSoup(html, "html.parser")
         text = '>>>_*' + param[0] + '*_\n'
