@@ -6,6 +6,7 @@ import random
 import datetime
 import json
 import urllib.request
+import urllib.parse
 import feedparser
 import pya3rt
 import slackbot_settings
@@ -195,6 +196,19 @@ def questionnaire_func(message, params):
             channel=message._body['channel'],
             timestamp=ts
         )
+
+@respond_to(r'^wiki (.*)$')
+def wikipedia_func(message, params):
+    url = 'https://ja.wikipedia.org/wiki/' + urllib.parse.quote_plus(str(params).replace(' ', ''), encoding="utf-8")
+
+    try:
+        urllib.request.urlopen(url)
+        text = 'Wikipediaの' + str(params).replace(' ', '') + 'の項目だよー\n' + url
+    except urllib.request.HTTPError as e:
+        if e.code != 200:
+            text = '項目が見つかんないよ＞＜'
+
+    message.reply(text)
 
 @listen_to(r'^トピック (.*)$')
 def set_topic_func(message, params):
