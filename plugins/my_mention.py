@@ -253,9 +253,9 @@ def onigiri_func(message):
 def admin_func(message, params):
     log_output(message)
     try:
-        text = subprocess.check_output(params, shell=True).decode('utf-8').rstrip()
+        text = "```" + subprocess.check_output(params, shell=True).decode('utf-8').rstrip() + "```"
     except Exception as e:
-        text = 'Error'
+        text = '```Error```'
 
     message.reply(text)
 
