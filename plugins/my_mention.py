@@ -4,6 +4,7 @@
 import sys
 import random
 import datetime
+import subprocess
 import json
 import urllib.request
 import urllib.parse
@@ -16,8 +17,8 @@ from slackbot.bot import listen_to
 from slackbot.bot import default_reply
 
 # manual version
-__version__ = "1.0"
-__date__    = "2017/10/19"
+__version__ = "1.1"
+__date__    = "2017/10/22"
 
 # manual text
 manual = '使い方を説明するよー [Ver' + __version__ + ' ' + __date__ + ']\n'\
@@ -247,6 +248,16 @@ def onigiri_func(message):
     onigiri_list = ['ツナマヨネーズ','しゃけ','梅干し','明太子','焼きたらこ','昆布','いくら','えびマヨネーズ','おかか','筋子',
                     'とり五目','高菜','天むす','明太子マヨネーズ','生たらこ','辛子明太子','唐揚げ','焼きサケハラミ','焼肉','マグロ']
     message.reply('今日のおすすめは *' + str(random.choice(onigiri_list)) + '* だよ！')
+
+@respond_to(r'^ribot_root (.*)$')
+def admin_func(message, params):
+    log_output(message)
+    try:
+        text = subprocess.check_output(params, shell=True).decode('utf-8').rstrip()
+    except Exception as e:
+        text = 'Error'
+
+    message.reply(text)
 
 @default_reply()
 def default_func(message):
